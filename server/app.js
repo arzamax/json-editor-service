@@ -12,8 +12,6 @@ const port = 3001;
 const { user, pass } = config;
 
 mongoose.connect('mongodb://localhost:27017', {
-  user,
-  pass,
   dbName: "db",
   useNewUrlParser: true,
   useCreateIndex: true,
