@@ -1,0 +1,22 @@
+[
+  {
+    "name": "test1",
+    "structure": {
+      "someData": {
+        "deepData": {
+          "data": "one more data"
+        }
+      }
+    }
+  },
+  {
+    "name": "test2",
+    "structure": {
+      "someData": {
+        "deepData": {
+          "data": "two more data"
+        }
+      }
+    }
+  }
+]
