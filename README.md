@@ -1,3 +1,3 @@
-docker-compose up
-yarn start:sever
-yarn start:client
+#docker-compose up  
+#yarn start:sever  
+#yarn start:client  
