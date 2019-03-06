@@ -4,7 +4,6 @@ interface ISchemeName {
 }
 
 export interface IState {
-  activeSchemeId: string | null;
-  names: ISchemeName[] | null;
-  scheme: any;
+  languageSchemesNames: ISchemeName[];
+  languageScheme: any;
 }

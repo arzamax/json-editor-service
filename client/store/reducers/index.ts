@@ -8,9 +8,8 @@ import { IDefaultAction } from '../types/actions';
 import { IState } from '../types/reducers';
 
 const initialState = {
-  activeSchemeId: null,
-  names: null,
-  scheme: null,
+  languageScheme: null,
+  languageSchemesNames: [],
 };
 
 export const rootReducer: Reducer<IState, IDefaultAction<any>> = (state = initialState, action) => {
@@ -20,22 +19,27 @@ export const rootReducer: Reducer<IState, IDefaultAction<any>> = (state = initia
     case GET_LANGUAGE_SCHEMES_NAMES.SUCCESS:
       return {
         ...state,
-        names: payload,
+        languageSchemesNames: payload.data,
       };
     case GET_LANGUAGE_SCHEMES_NAMES.FAILURE:
       return {
         ...state,
-        names: null,
+        languageSchemesNames: null,
+      };
+    case GET_LANGUAGE_SCHEME.REQUEST:
+      return {
+        ...state,
+        activeScheme: payload,
       };
     case GET_LANGUAGE_SCHEME.SUCCESS:
       return {
         ...state,
-        scheme: payload,
+        languageScheme: payload.data,
       };
     case GET_LANGUAGE_SCHEME.FAILURE:
       return {
         ...state,
-        scheme: null,
+        languageScheme: null,
       };
     default:
       return state;
