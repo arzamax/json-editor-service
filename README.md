@@ -1,2 +1,3 @@
-# react-typescript-babel7-boilerplate
-Simple boilerplate with webpack, typescript, babel7, react
+docker-compose up  
+yarn start:sever  
+yarn start:client  
