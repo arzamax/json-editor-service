@@ -1,7 +1,6 @@
 export default {
-  buttonsColor: '#00AEEA',
+  handlersColor: '#00AEEA',
   inactiveColor: '#999999',
-  linkColor: '#00AEEA',
   mainColor: '#33516C',
   mainFont: 'Arial, sans-serif',
   transition: (target: string[]): string => target.reduce((acc, item, index) => {

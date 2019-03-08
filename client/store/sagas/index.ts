@@ -1,31 +1,31 @@
 import { all, call, fork, select, take } from 'redux-saga/effects';
 
 import { network } from '../../services/network';
-import { getLanguageScheme, getLanguageSchemesNames } from '../actions';
+import { getScheme, getSchemesNames } from '../actions';
 import {
-  GET_LANGUAGE_SCHEME,
-  GET_LANGUAGE_SCHEMES_NAMES,
+  GET_SCHEME,
+  GET_SCHEMES_NAMES,
 } from '../constants/actions';
 import { fetchDataWorker } from '../helpers/sagas';
-import { languageSchemeSelector } from '../selectors';
+import { schemeSelector } from '../selectors';
 
-function* getLanguageSchemesNamesWatcher() {
+function* getSchemesNamesWatcher() {
   while (true) {
-    yield take(GET_LANGUAGE_SCHEMES_NAMES.REQUEST);
+    yield take(GET_SCHEMES_NAMES.REQUEST);
     yield call(
       fetchDataWorker,
       network,
       '/structures/names',
       {},
-      getLanguageSchemesNames,
+      getSchemesNames,
     );
   }
 }
 
-function* getLanguageSchemeWatcher()  {
+function* getSchemeWatcher()  {
   while (true) {
-    const { payload } = yield take(GET_LANGUAGE_SCHEME.REQUEST);
-    const languageScheme = yield select(languageSchemeSelector);
+    const { payload } = yield take(GET_SCHEME.REQUEST);
+    const languageScheme = yield select(schemeSelector);
 
     if (payload && payload.hasOwnProperty('value')) {
       if (!languageScheme || (languageScheme.id !== payload.value)) {
@@ -38,7 +38,7 @@ function* getLanguageSchemeWatcher()  {
               id: payload.value,
             },
           },
-          getLanguageScheme,
+          getScheme,
         );
       }
     }
@@ -47,7 +47,7 @@ function* getLanguageSchemeWatcher()  {
 
 export function* rootSaga() {
   yield all([
-    fork(getLanguageSchemesNamesWatcher),
-    fork(getLanguageSchemeWatcher),
+    fork(getSchemesNamesWatcher),
+    fork(getSchemeWatcher),
   ]);
 }

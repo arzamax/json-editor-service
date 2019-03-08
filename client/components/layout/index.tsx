@@ -1,10 +1,7 @@
 import React, { ReactNode } from 'react';
 
 import { Container } from './styled';
-
-interface ILayoutProps {
-  children: ReactNode;
-}
+import { ILayoutProps } from './types';
 
 const Layout = ({ children }: ILayoutProps) => (
   <Container>

@@ -2,10 +2,7 @@ import React from 'react';
 
 import { TreeNode } from './components/tree-node';
 import { StructureContext } from './context';
-
-interface ITreeViewProps {
-  scheme: any;
-}
+import { ITreeViewProps } from './types';
 
 const TreeView = ({ scheme }: ITreeViewProps) => {
   if (scheme) {

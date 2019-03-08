@@ -1,20 +1,30 @@
 [
   {
-    "name": "test1",
+    "name": "english",
     "structure": {
-      "someData": {
-        "deepData": {
-          "data": "one more data"
+      "pages": {
+        "page1": {
+          "word": "apple"
+        },
+        "page2": {
+          "title": "potato"
+
         }
+      },
+      "analytics": {
+        "seo": "orange"
       }
     }
   },
   {
-    "name": "test2",
+    "name": "russian",
     "structure": {
-      "someData": {
-        "deepData": {
-          "data": "two more data"
+      "pages": {
+        "page1": {
+          "word": "fish"
+        },
+        "page2": {
+          "title": "meat"
         }
       }
     }

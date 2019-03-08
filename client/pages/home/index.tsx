@@ -1,14 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Layout from '../../components/layout';
-import LanguageSchemeSelect from './components/language-scheme-select';
-import LanguageSchemeTreeView from './components/language-scheme-tree-view';
+import { schemeSelector } from '../../store/selectors';
+import SchemeSelect from './components/scheme-select';
+import SchemeTreeView from './components/scheme-tree-view';
 
 const Home = () => (
   <Layout>
-    <LanguageSchemeSelect />
-    <LanguageSchemeTreeView />
+    <SchemeSelect />
+    <SchemeTreeView />
   </Layout>
 );
 
-export default Home;
+const mapStateToProps = (state: any) => ({
+  scheme: schemeSelector(state),
+});
+
+export default connect(mapStateToProps)(Home);

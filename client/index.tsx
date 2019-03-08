@@ -6,21 +6,22 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import reset from 'styled-reset';
 
 import App from './routes';
-import mainTheme from './sc-themes/main';
 import { store } from './store';
+import MAIN_THEME from './themes/main';
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
 
   body {
     font-family: ${({ theme }: any) => theme.mainFont};
+    font-size: 12px;
   }
 `;
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <ThemeProvider theme={mainTheme}>
+      <ThemeProvider theme={MAIN_THEME}>
         <>
           <GlobalStyle />
           <App/>

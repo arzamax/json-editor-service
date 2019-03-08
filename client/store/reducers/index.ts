@@ -2,50 +2,50 @@ import { Map } from 'immutable';
 import { Reducer } from 'redux';
 
 import {
-  GET_LANGUAGE_SCHEME,
-  GET_LANGUAGE_SCHEMES_NAMES,
+  GET_SCHEME,
+  GET_SCHEMES_NAMES,
 } from '../constants/actions';
 import { IDefaultAction } from '../types/actions';
 import { IState } from '../types/reducers';
 
 const initialState = {
-  languageScheme: null,
-  languageSchemesNames: [],
+  scheme: null,
+  schemesNames: [],
 };
 
 export const rootReducer: Reducer<IState, IDefaultAction<any>> = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case GET_LANGUAGE_SCHEMES_NAMES.SUCCESS:
+    case GET_SCHEMES_NAMES.SUCCESS:
       return {
         ...state,
-        languageSchemesNames: payload.data,
+        schemesNames: payload.data,
       };
-    case GET_LANGUAGE_SCHEMES_NAMES.FAILURE:
+    case GET_SCHEMES_NAMES.FAILURE:
       return {
         ...state,
-        languageSchemesNames: null,
+        schemesNames: null,
       };
-    case GET_LANGUAGE_SCHEME.REQUEST:
+    case GET_SCHEME.REQUEST:
       return {
         ...state,
         activeScheme: payload,
       };
-    case GET_LANGUAGE_SCHEME.SUCCESS:
+    case GET_SCHEME.SUCCESS:
       const { data } = payload;
 
       return {
         ...state,
-        languageScheme: {
+        scheme: {
           id: data.id,
           structure: Map(data.structure),
         },
       };
-    case GET_LANGUAGE_SCHEME.FAILURE:
+    case GET_SCHEME.FAILURE:
       return {
         ...state,
-        languageScheme: null,
+        scheme: null,
       };
     default:
       return state;

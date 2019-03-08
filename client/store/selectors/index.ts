@@ -1,19 +1,19 @@
 import { createSelector } from 'reselect';
 
-const getRawLanguageSchemesNames = (state: any) => state.languageSchemesNames;
+const getRawSchemesNames = (state: any) => state.schemesNames;
 
-interface IRawLanguageSchemeName {
+interface IRawSchemeName {
   id: string;
   name: string;
 }
 
-export const languageSchemesNamesSelector = createSelector(
-  getRawLanguageSchemesNames,
-  (rawLanguageSchemesNames) => rawLanguageSchemesNames.map((item: IRawLanguageSchemeName) => ({
+export const schemesNamesSelector = createSelector(
+  getRawSchemesNames,
+  (rawSchemesNames) => rawSchemesNames.map((item: IRawSchemeName) => ({
     label: item.name,
     value: item.id,
   })),
 );
 
-export const activeLanguageSchemeNameSelector = (state: any) => state.activeScheme;
-export const languageSchemeSelector = (state: any) => state.languageScheme;
+export const activeSchemeNameSelector = (state: any) => state.activeScheme;
+export const schemeSelector = (state: any) => state.scheme;

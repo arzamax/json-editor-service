@@ -1,18 +1,21 @@
 import { Map } from 'immutable';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 
+import { useOnClickOutside } from '../../../../lib/hooks/use-click-outside';
+import MAIN_THEME from '../../../../themes/main';
 import { StructureContext } from '../../context';
 import { List, ListItem, ListItemTitle, ListItemTitleWrapper, Toggler } from './styled';
+import { ITreeNode } from './types';
 
+import DataIcon from '../../../../assets/img/data.svg';
 import KeyIcon from '../../../../assets/img/key.svg';
-
-interface ITreeNode {
-  currentKey: string;
-  path: string[];
-}
+import MinusIcon from '../../../../assets/img/minus.svg';
+import PlusIcon from '../../../../assets/img/plus.svg';
 
 export const TreeNode = ({ currentKey, path }: ITreeNode) => {
   const [isCollapsed, toggleNode] = useState(true);
+  const [isNodeActive, highlightNode] = useState(false);
+  const nodeTitleRef = useRef(null);
   const scheme = useContext(StructureContext);
   const { id: schemeId, structure } = scheme as any;
   const value = Map.isMap(structure) && structure.getIn(path);
@@ -35,7 +38,10 @@ export const TreeNode = ({ currentKey, path }: ITreeNode) => {
       return (
         <List>
           <ListItem>
-            <ListItemTitle>{value}</ListItemTitle>
+            <ListItemTitleWrapper>
+              <DataIcon fill={MAIN_THEME.mainColor}/>
+              <ListItemTitle>{value}</ListItemTitle>
+            </ListItemTitleWrapper>
           </ListItem>
         </List>
       );
@@ -44,18 +50,27 @@ export const TreeNode = ({ currentKey, path }: ITreeNode) => {
     return null;
   };
 
+  useOnClickOutside(nodeTitleRef, () => highlightNode(false));
+
   return (
     <ListItem>
       <ListItemTitleWrapper>
         <Toggler onClick={() => toggleNode(!isCollapsed)}>
           {
             isCollapsed
-              ? '+'
-              : '-'
+              ? <PlusIcon fill={MAIN_THEME.mainColor} />
+              : <MinusIcon fill={MAIN_THEME.mainColor} />
           }
         </Toggler>
-        <KeyIcon width={17} height={17}/>
-        <ListItemTitle onDoubleClick={() => toggleNode(false)}>{currentKey}</ListItemTitle>
+        <KeyIcon fill={MAIN_THEME.mainColor}/>
+        <ListItemTitle
+          ref={nodeTitleRef}
+          onClick={() => highlightNode(true)}
+          onDoubleClick={() => toggleNode(false)}
+          isActive={isNodeActive}
+        >
+          {currentKey}
+        </ListItemTitle>
       </ListItemTitleWrapper>
       {renderList()}
     </ListItem>
