@@ -35,6 +35,7 @@ export default class StructureController {
       const id = req.query.id;
 
       if (!id) {
+        res.status(404);
         res.json({
           error: true,
           message: 'There is no id provided',
@@ -44,6 +45,7 @@ export default class StructureController {
         const structure = await Structure.findById(id);
 
         if (!structure) {
+          res.status(404);
           res.json({
             error: true,
             message: 'There is no such structure',

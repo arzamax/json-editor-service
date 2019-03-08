@@ -7,8 +7,6 @@ interface IRawLanguageSchemeName {
   name: string;
 }
 
-export const activeLanguageSchemeSelector = (state: any) => state.activeScheme;
-
 export const languageSchemesNamesSelector = createSelector(
   getRawLanguageSchemesNames,
   (rawLanguageSchemesNames) => rawLanguageSchemesNames.map((item: IRawLanguageSchemeName) => ({
@@ -16,3 +14,6 @@ export const languageSchemesNamesSelector = createSelector(
     value: item.id,
   })),
 );
+
+export const activeLanguageSchemeNameSelector = (state: any) => state.activeScheme;
+export const languageSchemeSelector = (state: any) => state.languageScheme;

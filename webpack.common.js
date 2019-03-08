@@ -38,7 +38,21 @@ module.exports = {
           'css-loader']
       },
       {
-        test: /\.(jpe?g|png|gif|svg|woff(2)?|ttf|eot|)$/i,
+        test: /\.svg$/,
+        use: [
+          {
+            loader: "babel-loader"
+          },
+          {
+            loader: "react-svg-loader",
+            options: {
+              jsx: true
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(jpe?g|png|gif|woff(2)?|ttf|eot|)$/i,
         loader: 'file-loader',
         options: {
           name: '[hash].[ext]',

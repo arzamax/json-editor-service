@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 import { Reducer } from 'redux';
 
 import {
@@ -32,9 +33,14 @@ export const rootReducer: Reducer<IState, IDefaultAction<any>> = (state = initia
         activeScheme: payload,
       };
     case GET_LANGUAGE_SCHEME.SUCCESS:
+      const { data } = payload;
+
       return {
         ...state,
-        languageScheme: payload.data,
+        languageScheme: {
+          id: data.id,
+          structure: Map(data.structure),
+        },
       };
     case GET_LANGUAGE_SCHEME.FAILURE:
       return {

@@ -1,4 +1,4 @@
-import { all, call, fork, take } from 'redux-saga/effects';
+import { all, call, fork, select, take } from 'redux-saga/effects';
 
 import { network } from '../../services/network';
 import { getLanguageScheme, getLanguageSchemesNames } from '../actions';
@@ -7,6 +7,7 @@ import {
   GET_LANGUAGE_SCHEMES_NAMES,
 } from '../constants/actions';
 import { fetchDataWorker } from '../helpers/sagas';
+import { languageSchemeSelector } from '../selectors';
 
 function* getLanguageSchemesNamesWatcher() {
   while (true) {
@@ -23,18 +24,24 @@ function* getLanguageSchemesNamesWatcher() {
 
 function* getLanguageSchemeWatcher()  {
   while (true) {
-    const { payload: id } = yield take(GET_LANGUAGE_SCHEME.REQUEST);
-    yield call(
-      fetchDataWorker,
-      network,
-      '/structures',
-      {
-        params: {
-          id,
-        },
-      },
-      getLanguageScheme,
-    );
+    const { payload } = yield take(GET_LANGUAGE_SCHEME.REQUEST);
+    const languageScheme = yield select(languageSchemeSelector);
+
+    if (payload && payload.hasOwnProperty('value')) {
+      if (!languageScheme || (languageScheme.id !== payload.value)) {
+        yield call(
+          fetchDataWorker,
+          network,
+          '/structures',
+          {
+            params: {
+              id: payload.value,
+            },
+          },
+          getLanguageScheme,
+        );
+      }
+    }
   }
 }
 

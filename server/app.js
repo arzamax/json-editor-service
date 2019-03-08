@@ -27,6 +27,7 @@ app.use(bodyParser.urlencoded({
 app.use('/api', routes);
 
 app.use((error, req, res, next) => {
+  res.status(404);
   res.json({
     error: true,
     message: error.message

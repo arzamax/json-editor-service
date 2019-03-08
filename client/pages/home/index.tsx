@@ -1,38 +1,14 @@
-import React, { memo, useCallback, useEffect } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
 
-import { Select } from '../../components/select';
-import { getLanguageScheme, getLanguageSchemesNames } from '../../store/actions';
-import { activeLanguageSchemeSelector, languageSchemesNamesSelector } from '../../store/selectors';
-import { IHomeProps } from './types';
+import Layout from '../../components/layout';
+import LanguageSchemeSelect from './components/language-scheme-select';
+import LanguageSchemeTreeView from './components/language-scheme-tree-view';
 
-const Home = ({
-  requestLanguageSchemesNames,
-  languageSchemeNames,
-  requestLanguageScheme,
-  activeLanguageScheme,
-}: IHomeProps): JSX.Element => {
-  const selectScheme = useCallback((value) => requestLanguageScheme(value),  []);
+const Home = () => (
+  <Layout>
+    <LanguageSchemeSelect />
+    <LanguageSchemeTreeView />
+  </Layout>
+);
 
-  useEffect(() => {
-    requestLanguageSchemesNames();
-  }, []);
-
-  return (
-    <Select
-      onChange={selectScheme}
-      value={activeLanguageScheme}
-      options={languageSchemeNames}
-    />
-  );
-};
-
-const mapStateToProps = (state: any) => ({
-  activeLanguageScheme: activeLanguageSchemeSelector(state),
-  languageSchemeNames: languageSchemesNamesSelector(state),
-});
-
-export default connect(mapStateToProps, {
-  requestLanguageScheme: getLanguageScheme.request,
-  requestLanguageSchemesNames: getLanguageSchemesNames.request,
-})(memo(Home));
+export default Home;

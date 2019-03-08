@@ -2,19 +2,29 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import reset from 'styled-reset';
 
 import App from './routes';
 import mainTheme from './sc-themes/main';
 import { store } from './store';
 
-import './styles.css';
+const GlobalStyle = createGlobalStyle`
+  ${reset}
+
+  body {
+    font-family: ${({ theme }: any) => theme.mainFont};
+  }
+`;
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <ThemeProvider theme={mainTheme}>
-        <App/>
+        <>
+          <GlobalStyle />
+          <App/>
+        </>
       </ThemeProvider>
     </BrowserRouter>
   </Provider>
