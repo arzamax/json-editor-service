@@ -21,6 +21,7 @@ StructureSchema.methods.toStructureForClient = function () {
   return {
     id: this._id,
     structure: this.structure,
+    name: this.name,
   }
 };
 

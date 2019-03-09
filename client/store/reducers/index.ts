@@ -4,11 +4,13 @@ import { Reducer } from 'redux';
 import {
   GET_SCHEME,
   GET_SCHEMES_NAMES,
+  UPDATE_SCHEME,
 } from '../constants/actions';
 import { IDefaultAction } from '../types/actions';
 import { IState } from '../types/reducers';
 
 const initialState = {
+  isSchemeTouched: false,
   scheme: null,
   schemesNames: [],
 };
@@ -34,18 +36,30 @@ export const rootReducer: Reducer<IState, IDefaultAction<any>> = (state = initia
       };
     case GET_SCHEME.SUCCESS:
       const { data } = payload;
+      const { id, name, structure } = data;
 
       return {
         ...state,
+        isSchemeTouched: false,
         scheme: {
-          id: data.id,
-          structure: Map(data.structure),
+          id,
+          name,
+          structure: Map(structure),
         },
       };
     case GET_SCHEME.FAILURE:
       return {
         ...state,
         scheme: null,
+      };
+    case UPDATE_SCHEME:
+      return {
+        ...state,
+        isSchemeTouched: true,
+        scheme: {
+          ...state.scheme,
+          structure: payload,
+        },
       };
     default:
       return state;

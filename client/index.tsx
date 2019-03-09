@@ -15,6 +15,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: ${({ theme }: any) => theme.mainFont};
     font-size: 12px;
+    line-height: 16px;
   }
 `;
 

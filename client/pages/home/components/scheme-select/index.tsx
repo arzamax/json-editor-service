@@ -1,11 +1,11 @@
-import React, { memo, useCallback, useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Select from '../../../../components/select';
 import { getScheme, getSchemesNames } from '../../../../store/actions';
 import { activeSchemeNameSelector, schemesNamesSelector } from '../../../../store/selectors';
 import { SelectWrapper } from './styled';
-import { ISchemeSelectProps } from './types';
+import { ISchemeName, ISchemeSelectProps } from './types';
 
 const SchemeSelect = ({
   requestSchemesNames,
@@ -13,7 +13,7 @@ const SchemeSelect = ({
   requestScheme,
   activeScheme,
 }: ISchemeSelectProps): JSX.Element => {
-  const selectScheme = useCallback((value) => requestScheme(value),  []);
+  const selectScheme = (value: ISchemeName | null) => requestScheme(value);
 
   useEffect(() => {
     requestSchemesNames();
@@ -25,8 +25,8 @@ const SchemeSelect = ({
         value={activeScheme}
         onChange={selectScheme}
         options={schemesNames}
-        placeholder={'Выберите схему'}
-        label={'Выберите готовую схему'}
+        placeholder={'Select scheme'}
+        label={'Select ready scheme'}
       />
     </SelectWrapper>
   );

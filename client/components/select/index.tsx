@@ -2,9 +2,9 @@ import React from 'react';
 import ReactSelect from 'react-select';
 
 import { Label, ReactSelectWrapper } from './styled';
-import { ISelect } from './types';
+import { ISelectProps } from './types';
 
-const Select = ({ value, onChange, options, placeholder, label }: ISelect) => (
+const Select = ({ value, onChange, options, placeholder, label }: ISelectProps) => (
   <ReactSelectWrapper>
     {label && <Label>{label}</Label>}
     <ReactSelect

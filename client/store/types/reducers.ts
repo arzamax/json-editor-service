@@ -6,4 +6,5 @@ interface ISchemeName {
 export interface IState {
   schemesNames: ISchemeName[];
   scheme: any;
+  isSchemeTouched: boolean;
 }

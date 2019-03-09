@@ -1,25 +1,71 @@
 import { Map } from 'immutable';
-import React, { useContext, useRef, useState } from 'react';
+import { isEmpty } from 'ramda';
+import React, { memo, useContext, useRef, useState } from 'react';
 
 import { useOnClickOutside } from '../../../../lib/hooks/use-click-outside';
 import MAIN_THEME from '../../../../themes/main';
-import { StructureContext } from '../../context';
-import { List, ListItem, ListItemTitle, ListItemTitleWrapper, Toggler } from './styled';
-import { ITreeNode } from './types';
+import { TreeViewContext } from '../../context';
+import { ContextMenu } from '../context-menu';
+import {
+  List,
+  ListItemTitle,
+  ListItemTitleWrapper,
+  ListNodeItem,
+  ListValueItem,
+  Toggler,
+} from './styled';
+import { ITreeNodeProps } from './types';
 
 import DataIcon from '../../../../assets/img/data.svg';
 import KeyIcon from '../../../../assets/img/key.svg';
 import MinusIcon from '../../../../assets/img/minus.svg';
 import PlusIcon from '../../../../assets/img/plus.svg';
 
-export const TreeNode = ({ currentKey, path }: ITreeNode) => {
+export const TreeNode = memo(({ currentKey, path }: ITreeNodeProps) => {
   const [isCollapsed, toggleNode] = useState(true);
   const [isNodeActive, highlightNode] = useState(false);
+  const [isValueActive, highlightValue] = useState(false);
+  const [isContextMenuOpenOnNode, setContextMenuVisibleOnNode] = useState(false);
+  const [isContextMenuOpenOnValue, setContextMenuVisibleOnValue] = useState(false);
   const nodeTitleRef = useRef(null);
-  const scheme = useContext(StructureContext);
+  const valueTitleRef = useRef(null);
+  const contextMenuRef = useRef(null);
+  const { scheme, withContextMenu, updateScheme } = useContext(TreeViewContext) as any;
+
   const { id: schemeId, structure } = scheme as any;
-  const value = Map.isMap(structure) && structure.getIn(path);
+  const isStructureMap = Map.isMap(structure);
+  const value = isStructureMap && structure.getIn(path);
   const isNode = typeof value === 'object';
+
+  const handleOpenContextMenuOnNode = (e: any) => {
+    e.preventDefault();
+
+    if (withContextMenu) {
+      setContextMenuVisibleOnNode(true);
+      highlightNode(true);
+    }
+  };
+
+  const handleOpenContextMenuOnValue = (e: any) => {
+    e.preventDefault();
+
+    if (withContextMenu) {
+      setContextMenuVisibleOnValue(true);
+      highlightValue(true);
+    }
+  };
+
+  const handleDeleteNode = () => {
+    const newStructure = isStructureMap && structure.deleteIn(path);
+
+    updateScheme(newStructure);
+  };
+
+  const handleDeleteValue = () => {
+    const newStructure = isStructureMap && structure.setIn(path, {});
+
+    updateScheme(newStructure);
+  };
 
   const renderList = () => {
     if (!isCollapsed && value) {
@@ -27,8 +73,13 @@ export const TreeNode = ({ currentKey, path }: ITreeNode) => {
         return (
           <List>
             {
-              Map(value).keySeq().map((k: any) =>
-                <TreeNode key={`${schemeId}-${k}`} currentKey={k} path={[...path, k]}/>,
+              Object.keys(value).map((k: any) =>
+                <TreeNode
+                  key={`${schemeId}-${k}`}
+                  currentKey={k}
+                  path={[...path, k]}
+                  withContextMenu={withContextMenu}
+                />,
               )
             }
           </List>
@@ -37,12 +88,27 @@ export const TreeNode = ({ currentKey, path }: ITreeNode) => {
 
       return (
         <List>
-          <ListItem>
+          <ListValueItem>
             <ListItemTitleWrapper>
               <DataIcon fill={MAIN_THEME.mainColor}/>
-              <ListItemTitle>{value}</ListItemTitle>
+              <ListItemTitle
+                ref={valueTitleRef}
+                onClick={() => highlightValue(true)}
+                onContextMenu={handleOpenContextMenuOnValue}
+                isActive={isValueActive}
+              >
+                {value}
+              </ListItemTitle>
+              {
+                withContextMenu &&
+                  <ContextMenu
+                    ref={contextMenuRef}
+                    isOpen={isContextMenuOpenOnValue}
+                    onDelete={handleDeleteValue}
+                  />
+              }
             </ListItemTitleWrapper>
-          </ListItem>
+          </ListValueItem>
         </List>
       );
     }
@@ -51,28 +117,43 @@ export const TreeNode = ({ currentKey, path }: ITreeNode) => {
   };
 
   useOnClickOutside(nodeTitleRef, () => highlightNode(false));
+  useOnClickOutside(valueTitleRef, () => highlightValue(false));
+  useOnClickOutside(contextMenuRef, () => setContextMenuVisibleOnNode(false));
+  useOnClickOutside(contextMenuRef, () => setContextMenuVisibleOnValue(false));
 
   return (
-    <ListItem>
+    <ListNodeItem isEmpty={isNode && isEmpty(value)}>
       <ListItemTitleWrapper>
-        <Toggler onClick={() => toggleNode(!isCollapsed)}>
-          {
-            isCollapsed
-              ? <PlusIcon fill={MAIN_THEME.mainColor} />
-              : <MinusIcon fill={MAIN_THEME.mainColor} />
-          }
-        </Toggler>
+        {
+          !isEmpty(value) &&
+            <Toggler onClick={() => toggleNode(!isCollapsed)}>
+              {
+                isCollapsed
+                  ? <PlusIcon fill={MAIN_THEME.mainColor} />
+                  : <MinusIcon fill={MAIN_THEME.mainColor} />
+              }
+            </Toggler>
+        }
         <KeyIcon fill={MAIN_THEME.mainColor}/>
         <ListItemTitle
           ref={nodeTitleRef}
           onClick={() => highlightNode(true)}
           onDoubleClick={() => toggleNode(false)}
+          onContextMenu={handleOpenContextMenuOnNode}
           isActive={isNodeActive}
         >
           {currentKey}
         </ListItemTitle>
+        {
+          withContextMenu &&
+            <ContextMenu
+              ref={contextMenuRef}
+              isOpen={isContextMenuOpenOnNode}
+              onDelete={handleDeleteNode}
+            />
+        }
       </ListItemTitleWrapper>
       {renderList()}
-    </ListItem>
+    </ListNodeItem>
   );
-};
+});

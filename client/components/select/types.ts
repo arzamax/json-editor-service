@@ -3,7 +3,7 @@ interface IOption {
   label: string;
 }
 
-export interface ISelect {
+export interface ISelectProps {
   value: IOption | null;
   onChange: (selectedOption: any) => void;
   options: IOption[];

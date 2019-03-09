@@ -2,12 +2,19 @@ import Structure from '../models/structure';
 
 export default class StructureController {
 
-  static async createStructure(req, res, next) {
+  static async saveOrCreateStructure(req, res, next) {
     try {
-      const structure = new Structure(req.body);
-      const newStructure = await structure.save();
+      const { id, structure: data, name } = req.body;
 
-      res.json(newStructure);
+      if (id) {
+        await Structure.updateOne({ _id: id }, { name, structure: data });
+      } else {
+        const structure = new Structure({ name, structure: data });
+
+        structure.save();
+      }
+
+      res.json({ success: true });
     } catch(e) {
       next(e);
     }

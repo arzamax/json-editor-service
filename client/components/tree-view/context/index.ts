@@ -1,3 +1,3 @@
 import React from 'react';
 
-export const StructureContext = React.createContext(null);
+export const TreeViewContext = React.createContext(null);

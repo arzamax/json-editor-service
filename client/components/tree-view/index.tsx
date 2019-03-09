@@ -1,23 +1,31 @@
-import React from 'react';
+import React, { memo, useEffect } from 'react';
 
+import { useDocumentWithoutContextMenu } from '../../lib/hooks/use-document-without-context-menu';
 import { TreeNode } from './components/tree-node';
-import { StructureContext } from './context';
+import { TreeViewContext } from './context';
 import { ITreeViewProps } from './types';
 
-const TreeView = ({ scheme }: ITreeViewProps) => {
+const TreeView = ({ scheme, withContextMenu, updateScheme }: ITreeViewProps) => {
   if (scheme) {
     const { id: schemeId, structure } = scheme;
 
+    useDocumentWithoutContextMenu();
+
     return (
       <ul>
-        <StructureContext.Provider value={scheme}>
+        <TreeViewContext.Provider value={{ scheme, updateScheme, withContextMenu } as any}>
           {
             structure.keySeq().map((k: any) => (
-                <TreeNode key={`${schemeId}-${k}`} path={[k]} currentKey={k} />
+                <TreeNode
+                  key={`${schemeId}-${k}`}
+                  path={[k]}
+                  currentKey={k}
+                  withContextMenu={withContextMenu}
+                />
               ),
             )
           }
-        </StructureContext.Provider>
+        </TreeViewContext.Provider>
       </ul>
     );
   }
@@ -25,4 +33,4 @@ const TreeView = ({ scheme }: ITreeViewProps) => {
   return null;
 };
 
-export default TreeView;
+export default memo(TreeView);

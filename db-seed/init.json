@@ -28,5 +28,18 @@
         }
       }
     }
+  },
+  {
+    "name": "german",
+    "structure": {
+      "pages": {
+        "page1": {
+          "word": "main"
+        },
+        "seo": {
+          "data":	"three more data"
+        }
+      }
+    }
   }
 ]
