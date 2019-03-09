@@ -32,6 +32,7 @@ export const TreeNode = memo(({ currentKey, path }: ITreeNodeProps) => {
   const valueTitleRef = useRef(null);
   const contextMenuRef = useRef(null);
   const { scheme, withContextMenu, updateScheme } = useContext(TreeViewContext) as any;
+
   const { id: schemeId, structure } = scheme as any;
   const value = structure.getIn(path);
   const isNode = typeof value === 'object';
