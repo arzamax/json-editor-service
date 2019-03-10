@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo, useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Select from '../../../../components/select';
@@ -13,7 +13,9 @@ const SchemeSelect = ({
   requestScheme,
   activeScheme,
 }: ISchemeSelectProps): JSX.Element => {
-  const selectScheme = (value: ISchemeName | null) => requestScheme(value);
+  const selectScheme = useCallback((value: ISchemeName | null) => {
+    requestScheme(value);
+  }, []);
 
   useEffect(() => {
     requestSchemesNames();

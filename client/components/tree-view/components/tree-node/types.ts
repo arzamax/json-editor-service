@@ -3,3 +3,11 @@ export interface ITreeNodeProps {
   path: string[];
   withContextMenu?: boolean;
 }
+
+export interface IListNodeItemProps {
+  isEmpty: boolean;
+}
+
+export interface IListItemTitleProps {
+  isActive?: boolean;
+}

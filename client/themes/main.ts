@@ -5,6 +5,7 @@ export default {
   inactiveColor: '#999999',
   mainColor: '#33516C',
   mainFont: 'Arial, sans-serif',
+  successColor: '#43A047',
   transition: (target: string[]): string => target.reduce((acc, item, index) => {
     acc += `${item} ease-out 0.3s${index !== target.length - 1 ? ', ' : ''}`;
 

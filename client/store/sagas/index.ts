@@ -8,7 +8,7 @@ import {
   SAVE_SCHEME,
 } from '../constants/actions';
 import { fetchDataWorker } from '../helpers/sagas';
-import { schemeSelector } from '../selectors';
+import { isSchemeTouchedSelector, schemeSelector } from '../selectors';
 
 function* getSchemesNamesWatcher() {
   while (true) {
@@ -49,20 +49,25 @@ function* getSchemeWatcher()  {
 function* saveSchemeWatcher() {
   while (true) {
     yield take(SAVE_SCHEME.REQUEST);
-    const scheme = yield select(schemeSelector);
+    const [scheme, isSchemeTouched] = yield all([
+      select(schemeSelector),
+      select(isSchemeTouchedSelector),
+    ]) ;
     const { id, name, structure } = scheme;
 
-    yield call(
-      fetchDataWorker,
-      network.post,
-      '/structures',
-      {
-        id,
-        name,
-        structure: structure.toJS(),
-      },
-      saveScheme,
-    );
+    if (isSchemeTouched) {
+      yield call(
+        fetchDataWorker,
+        network.post,
+        '/structures',
+        {
+          id,
+          name,
+          structure: structure.get('root'),
+        },
+        saveScheme,
+      );
+    }
   }
 }
 

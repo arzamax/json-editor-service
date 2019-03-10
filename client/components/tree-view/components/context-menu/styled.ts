@@ -6,23 +6,51 @@ export const ContextMenuWrapper = styled.div`
   top: -5px;
   left: 120%;
   width: 200px;
+  background: #fff;
   box-shadow: ${({ theme }) => theme.defaultBoxShadow};
 `;
 
 export const ContextMenuItem = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  cursor: pointer;
-  transition: ${({ theme }) => theme.transition(['background', 'color'])};
+  ${({ theme }) => `
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    transition: ${theme.transition(['background', 'color'])};
 
-  &:hover {
-    background: ${({ theme }) => theme.handlersColor};
-    color: #fff;
-    transition: ${({ theme }) => theme.transition(['background', 'color'])};
-  }
+    &:last-child {
+      border-top: 1px solid ${theme.mainColor};
+    }
+
+    &:hover {
+      background: ${theme.handlersColor};
+      color: #fff;
+      transition: ${theme.transition(['background', 'color'])};
+    }
+  `}
 `;
 
 export const ContextMenuItemText = styled.span`
   margin-left: 10px;
+`;
+
+export const ContextMenuInputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 10px;
+`;
+
+export const ContextMenuInput = styled.input`
+  width: 110px;
+  padding: 3px 5px;
+  outline: none;
+`;
+
+export const ContextMenuInputIconWrapper = styled.div`
+  margin-left: 10px;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;

@@ -1,18 +1,12 @@
 import styled from 'styled-components';
 
-interface IListNodeItem {
-  isEmpty: boolean;
-}
-
-interface IListItemTitleProps {
-  isActive?: boolean;
-}
+import { IListItemTitleProps, IListNodeItemProps } from './types';
 
 export const List = styled.ul`
   margin-left: 20px;
 `;
 
-export const ListNodeItem = styled('li')<IListNodeItem>`
+export const ListNodeItem = styled('li')<IListNodeItemProps>`
   margin: 20px 0 0 ${({ isEmpty }) => isEmpty ? 56 : 20}px;
   user-select: none;
 `;

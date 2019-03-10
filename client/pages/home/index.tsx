@@ -7,7 +7,7 @@ import { IHomeProps } from './types';
 import { Button } from '../../components/button';
 import Layout from '../../components/layout';
 import { saveScheme } from '../../store/actions';
-import { isSchemeTouchSelector, schemeSelector } from '../../store/selectors';
+import { isSchemeTouchedSelector, schemeSelector } from '../../store/selectors';
 import SchemeSelect from './components/scheme-select';
 import SchemeTreeView from './components/scheme-tree-view';
 
@@ -34,7 +34,7 @@ const Home = ({ isSchemeTouched, scheme, requestSaveScheme }: IHomeProps) => (
 );
 
 const mapStateToProps = (state: any) => ({
-  isSchemeTouched: isSchemeTouchSelector(state),
+  isSchemeTouched: isSchemeTouchedSelector(state),
   scheme: schemeSelector(state),
 });
 

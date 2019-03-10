@@ -44,7 +44,7 @@ export const rootReducer: Reducer<IState, IDefaultAction<any>> = (state = initia
         scheme: {
           id,
           name,
-          structure: Map(structure),
+          structure: Map({ root: structure }),
         },
       };
     case GET_SCHEME.FAILURE:
