@@ -41,7 +41,7 @@ export const ContextMenu = memo(forwardRef((
     onDelete,
   }: IContextMenuProps,
   ref: any,
-) => {
+): JSX.Element | null => {
   const [inputType, setInputType] = useState('');
   const [inputValue, setInputValue] = useState('');
 

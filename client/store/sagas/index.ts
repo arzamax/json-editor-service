@@ -1,14 +1,22 @@
-import { all, call, fork, select, take } from 'redux-saga/effects';
+import { isNil } from 'ramda';
+import { all, call, fork, put, select, take } from 'redux-saga/effects';
 
+import { ISchemeName } from '../../pages/home/components/scheme-select/types';
 import { network } from '../../services/network';
-import { getScheme, getSchemesNames, saveScheme } from '../actions';
+import { deleteScheme, getScheme, getSchemesNames, saveScheme, setActiveSchemeName } from '../actions';
 import {
+  DELETE_SCHEME,
   GET_SCHEME,
   GET_SCHEMES_NAMES,
   SAVE_SCHEME,
 } from '../constants/actions';
 import { fetchDataWorker } from '../helpers/sagas';
-import { isSchemeTouchedSelector, schemeSelector } from '../selectors';
+import {
+  isSchemeSavingErrorSelector,
+  isSchemeTouchedSelector,
+  schemeSelector,
+  schemesNamesSelector,
+} from '../selectors';
 
 function* getSchemesNamesWatcher() {
   while (true) {
@@ -53,21 +61,49 @@ function* saveSchemeWatcher() {
       select(schemeSelector),
       select(isSchemeTouchedSelector),
     ]) ;
-    const { id, name, structure } = scheme;
 
-    if (isSchemeTouched) {
+    if (isSchemeTouched && !isNil(scheme.name)) {
+      const { structure } = scheme;
+
       yield call(
         fetchDataWorker,
         network.post,
         '/structures',
         {
-          id,
-          name,
+          ...scheme,
           structure: structure.get('root'),
         },
         saveScheme,
       );
+      const isSchemeSavingError = yield select(isSchemeSavingErrorSelector);
+
+      if (!isSchemeSavingError) {
+        const { id } = yield select(schemeSelector);
+        yield put(getSchemesNames.request());
+        yield take(GET_SCHEMES_NAMES.SUCCESS);
+        const schemesNames = yield select(schemesNamesSelector);
+        const activeSchemeName = schemesNames.find((schemeName: ISchemeName) => schemeName.value === id);
+        yield put(setActiveSchemeName(activeSchemeName));
+      }
     }
+  }
+}
+
+function* deleteSchemeWatcher() {
+  while (true) {
+    const { payload: id } = yield take(DELETE_SCHEME.REQUEST);
+
+    yield call(
+      fetchDataWorker,
+      network.delete,
+      '/structures',
+      {
+        params: {
+          id,
+        },
+      },
+      deleteScheme,
+    );
   }
 }
 
@@ -76,5 +112,6 @@ export function* rootSaga() {
     fork(getSchemesNamesWatcher),
     fork(getSchemeWatcher),
     fork(saveSchemeWatcher),
+    fork(deleteSchemeWatcher),
   ]);
 }

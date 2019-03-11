@@ -1,30 +1,41 @@
+import { isNil } from 'ramda';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { EmptyDataText } from './styled';
-import { IHomeProps } from './types';
-
 import { Button } from '../../components/button';
 import Layout from '../../components/layout';
-import { saveScheme } from '../../store/actions';
+import { deleteScheme, saveScheme } from '../../store/actions';
 import { isSchemeTouchedSelector, schemeSelector } from '../../store/selectors';
 import SchemeSelect from './components/scheme-select';
 import SchemeTreeView from './components/scheme-tree-view';
+import { IHomeProps } from './types';
 
-const Home = ({ isSchemeTouched, scheme, requestSaveScheme }: IHomeProps) => (
+import { ButtonsWrapper, EmptyDataText } from './styled';
+
+const Home = ({ isSchemeTouched, scheme, requestDeleteScheme, requestSaveScheme }: IHomeProps) => (
   <Layout>
     <SchemeSelect />
     {
       scheme
         ? <>
             <SchemeTreeView/>
-            <Button
-              onClick={requestSaveScheme}
-              disabled={!isSchemeTouched}
-              margin={'20px auto 0 auto'}
-            >
-              Save
-            </Button>
+            <ButtonsWrapper>
+              <Button
+                onClick={() => requestSaveScheme()}
+                disabled={!isSchemeTouched}
+              >
+                Save
+              </Button>
+              {
+                !isNil(scheme.id) &&
+                  <Button
+                    type={'danger'}
+                    onClick={() => requestDeleteScheme(scheme.id)}
+                  >
+                    Delete
+                  </Button>
+              }
+            </ButtonsWrapper>
           </>
         : <EmptyDataText>
             There is no any data
@@ -38,4 +49,7 @@ const mapStateToProps = (state: any) => ({
   scheme: schemeSelector(state),
 });
 
-export default connect(mapStateToProps, { requestSaveScheme: saveScheme.request })(Home);
+export default connect(mapStateToProps, {
+  requestDeleteScheme: deleteScheme.request,
+  requestSaveScheme: saveScheme.request,
+})(Home);

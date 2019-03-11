@@ -18,3 +18,4 @@ export const schemesNamesSelector = createSelector(
 export const activeSchemeNameSelector = (state: any) => state.activeScheme;
 export const schemeSelector = (state: any) => state.scheme;
 export const isSchemeTouchedSelector = (state: any) => state.isSchemeTouched;
+export const isSchemeSavingErrorSelector = (state: any) => state.isSchemeSavingError;

@@ -1,7 +1,7 @@
 import { HTMLAttributes } from 'react';
 
 export interface IButtonProps extends HTMLAttributes<HTMLButtonElement> {
-  margin?: string;
+  type?: 'danger';
   disabled?: boolean;
   onClick: any;
 }

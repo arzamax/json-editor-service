@@ -16,6 +16,10 @@ const GlobalStyle = createGlobalStyle`
     font-family: ${({ theme }: any) => theme.mainFont};
     font-size: 13px;
     line-height: 16px;
+
+    & * {
+      box-sizing: border-box;
+    }
   }
 `;
 

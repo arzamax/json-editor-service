@@ -5,7 +5,7 @@ import MAIN_THEME from '../../themes/main';
 import { Label, ReactSelectWrapper } from './styled';
 import { ISelectProps } from './types';
 
-const Select = ({ value, onChange, options, placeholder, label }: ISelectProps) => (
+const Select = ({ value, onChange, options, placeholder, label }: ISelectProps): JSX.Element => (
   <ReactSelectWrapper>
     {label && <Label>{label}</Label>}
     <ReactSelect

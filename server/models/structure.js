@@ -8,7 +8,7 @@ const StructureSchema = new mongoose.Schema({
     unique: true,
   },
   structure: {},
-}, { timestamps: true });
+}, { timestamps: true, minimize: false });
 
 StructureSchema.methods.toStructureNameForClient = function() {
   return {

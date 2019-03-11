@@ -7,7 +7,7 @@ export const List = styled.ul`
 `;
 
 export const ListNodeItem = styled('li')<IListNodeItemProps>`
-  margin: 20px 0 0 ${({ isEmpty }) => isEmpty ? 56 : 20}px;
+  margin: 20px 0 0 ${({ isEmpty }) => isEmpty  ? 56 : 20}px;
   user-select: none;
 `;
 

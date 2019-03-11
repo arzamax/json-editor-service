@@ -2,8 +2,10 @@ import React, { memo, useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Select from '../../../../components/select';
+
 import { getScheme, getSchemesNames } from '../../../../store/actions';
 import { activeSchemeNameSelector, schemesNamesSelector } from '../../../../store/selectors';
+import SchemeCreateButton from '../scheme-create-button';
 import { SelectWrapper } from './styled';
 import { ISchemeName, ISchemeSelectProps } from './types';
 
@@ -30,6 +32,7 @@ const SchemeSelect = ({
         placeholder={'Select scheme'}
         label={'Select ready scheme'}
       />
+      <SchemeCreateButton />
     </SelectWrapper>
   );
 };

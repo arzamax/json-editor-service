@@ -4,7 +4,9 @@ interface ISchemeName {
 }
 
 export interface IState {
+  activeScheme: ISchemeName | null;
   schemesNames: ISchemeName[];
   scheme: any;
+  isSchemeSavingError: boolean;
   isSchemeTouched: boolean;
 }

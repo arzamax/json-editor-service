@@ -1,4 +1,3 @@
-import { Map } from 'immutable';
 import { isEmpty } from 'ramda';
 import React, { memo, useCallback, useContext, useRef, useState } from 'react';
 
@@ -22,7 +21,7 @@ import MinusIcon from '../../../../assets/img/minus.svg';
 import PlusIcon from '../../../../assets/img/plus.svg';
 import TextIcon from '../../../../assets/img/text.svg';
 
-export const TreeNode = memo(({ currentKey, path, isRoot }: ITreeNodeProps) => {
+export const TreeNode = memo(({ currentKey, path, isRoot }: ITreeNodeProps): JSX.Element => {
   const [isCollapsed, toggleNode] = useState(true);
   const [isNodeActive, highlightNode] = useState(false);
   const [isValueActive, highlightValue] = useState(false);

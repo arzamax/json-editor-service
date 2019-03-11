@@ -6,15 +6,23 @@ export default class StructureController {
     try {
       const { id, structure: data, name } = req.body;
 
-      if (id) {
-        await Structure.updateOne({ _id: id }, { name, structure: data });
+      if (!name) {
+        res.status(404);
+        res.json({
+          error: true,
+          message: 'There is no name provided',
+        });
       } else {
-        const structure = new Structure({ name, structure: data });
+        if (id) {
+          await Structure.updateOne({ _id: id }, { name, structure: data });
+          res.json({ id, name, structure: data });
+        } else {
+          const structure = new Structure({ name, structure: data });
+          const newStructure = await structure.save();
 
-        structure.save();
+          res.json(newStructure.toStructureForClient());
+        }
       }
-
-      res.json({ success: true });
     } catch(e) {
       next(e);
     }
@@ -64,6 +72,16 @@ export default class StructureController {
           res.json(structureToClient);
         }
       }
+    } catch(e) {
+      next(e);
+    }
+  }
+
+  static async deleteStructure(req, res, next) {
+    try {
+      await Structure.deleteOne({ _id: req.query.id });
+
+      res.json({ id: req.query.id });
     } catch(e) {
       next(e);
     }
