@@ -1,5 +1,5 @@
-import React, { memo, useEffect } from 'react';
 import { Map } from 'immutable';
+import React, { memo, useEffect } from 'react';
 
 import { useDocumentWithoutContextMenu } from '../../lib/hooks/use-document-without-context-menu';
 import { TreeNode } from './components/tree-node';

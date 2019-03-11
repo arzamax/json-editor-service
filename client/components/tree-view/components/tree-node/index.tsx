@@ -37,7 +37,6 @@ export const TreeNode = memo(({ currentKey, path }: ITreeNodeProps) => {
   const value = structure.getIn(path);
   const isNode = typeof value === 'object';
   const isEmptyNode = isNode && isEmpty(value);
-  const keyName = path.slice().pop();
 
   const handleOpenContextMenuOnNode = useCallback((e: any) => {
     e.preventDefault();
@@ -193,7 +192,7 @@ export const TreeNode = memo(({ currentKey, path }: ITreeNodeProps) => {
               onAddValue={handleAddValue}
               onDelete={handleDeleteNode}
               onEditKeyName={handleEditKeyName}
-              keyName={keyName}
+              keyName={currentKey}
               isNode={isNode}
               isEmptyNode={isEmptyNode}
               isOpen={isContextMenuOpenOnNode}
