@@ -9,10 +9,16 @@ interface IRawSchemeName {
 
 export const schemesNamesSelector = createSelector(
   getRawSchemesNames,
-  (rawSchemesNames) => rawSchemesNames.map((item: IRawSchemeName) => ({
-    label: item.name,
-    value: item.id,
-  })),
+  (rawSchemesNames) => {
+    if (!rawSchemesNames) {
+      return [];
+    }
+
+    return rawSchemesNames.map((item: IRawSchemeName) => ({
+     label: item.name,
+     value: item.id,
+    }));
+  },
 );
 
 export const activeSchemeNameSelector = (state: any) => state.activeScheme;
