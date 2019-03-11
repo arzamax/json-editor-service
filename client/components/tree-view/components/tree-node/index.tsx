@@ -22,7 +22,7 @@ import MinusIcon from '../../../../assets/img/minus.svg';
 import PlusIcon from '../../../../assets/img/plus.svg';
 import TextIcon from '../../../../assets/img/text.svg';
 
-export const TreeNode = memo(({ currentKey, path }: ITreeNodeProps) => {
+export const TreeNode = memo(({ currentKey, path, isRoot }: ITreeNodeProps) => {
   const [isCollapsed, toggleNode] = useState(true);
   const [isNodeActive, highlightNode] = useState(false);
   const [isValueActive, highlightValue] = useState(false);
@@ -194,6 +194,7 @@ export const TreeNode = memo(({ currentKey, path }: ITreeNodeProps) => {
               onEditKeyName={handleEditKeyName}
               keyName={currentKey}
               isNode={isNode}
+              isRootNode={isRoot}
               isEmptyNode={isEmptyNode}
               isOpen={isContextMenuOpenOnNode}
             />

@@ -4,6 +4,7 @@ import { Reducer } from 'redux';
 import {
   GET_SCHEME,
   GET_SCHEMES_NAMES,
+  SAVE_SCHEME,
   UPDATE_SCHEME,
 } from '../constants/actions';
 import { IDefaultAction } from '../types/actions';
@@ -60,6 +61,11 @@ export const rootReducer: Reducer<IState, IDefaultAction<any>> = (state = initia
           ...state.scheme,
           structure: payload,
         },
+      };
+    case SAVE_SCHEME.SUCCESS:
+      return {
+        ...state,
+        isSchemeTouched: false,
       };
     default:
       return state;

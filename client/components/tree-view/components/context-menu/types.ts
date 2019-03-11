@@ -1,5 +1,6 @@
 export interface IContextMenuProps {
   isOpen: boolean;
+  isRootNode?: boolean;
   isNode?: boolean;
   isEmptyNode?: boolean;
   keyName?: string;

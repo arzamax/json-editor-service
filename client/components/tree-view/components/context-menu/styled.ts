@@ -22,6 +22,10 @@ export const ContextMenuItem = styled.div`
       border-top: 1px solid ${theme.mainColor};
     }
 
+    &:first-child {
+      border-top: none;
+    }
+
     &:hover {
       background: ${theme.handlersColor};
       color: #fff;
@@ -43,6 +47,8 @@ export const ContextMenuInputWrapper = styled.div`
 export const ContextMenuInput = styled.input`
   width: 110px;
   padding: 3px 5px;
+  border: 1px solid ${({ theme }) => theme.mainColor};
+  border-radius: 3px;
   outline: none;
 `;
 

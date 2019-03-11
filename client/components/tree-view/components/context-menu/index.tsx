@@ -31,6 +31,7 @@ export const ContextMenu = memo(forwardRef((
     isEmptyNode,
     isNode,
     isOpen,
+    isRootNode,
     keyName,
     value,
     onAddNode,
@@ -121,21 +122,27 @@ export const ContextMenu = memo(forwardRef((
             : null
         }
         {
-          isEmptyNode
+          isEmptyNode && !isRootNode
             ? <ContextMenuItem onClick={() => setInputType(INPUT_TYPES.ADD_VALUE)}>
                 <AddValueIcon width={ICON_SIZE} height={ICON_SIZE} fill={MAIN_THEME.mainColor} />
                 <ContextMenuItemText>Add value</ContextMenuItemText>
               </ContextMenuItem>
             : null
         }
-        <ContextMenuItem onClick={handleClickEdit}>
-          <EditIcon width={ICON_SIZE} height={ICON_SIZE} fill={MAIN_THEME.mainColor} />
-          <ContextMenuItemText>Edit name</ContextMenuItemText>
-        </ContextMenuItem>
-        <ContextMenuItem onClick={onDelete}>
-          <DeleteIcon width={ICON_SIZE} height={ICON_SIZE} fill={MAIN_THEME.errorColor} />
-          <ContextMenuItemText>Delete</ContextMenuItemText>
-        </ContextMenuItem>
+        {
+          !isRootNode
+            ? <>
+                <ContextMenuItem onClick={handleClickEdit}>
+                  <EditIcon width={ICON_SIZE} height={ICON_SIZE} fill={MAIN_THEME.mainColor} />
+                  <ContextMenuItemText>Edit name</ContextMenuItemText>
+                </ContextMenuItem>
+                <ContextMenuItem onClick={onDelete}>
+                  <DeleteIcon width={ICON_SIZE} height={ICON_SIZE} fill={MAIN_THEME.errorColor} />
+                  <ContextMenuItemText>Delete</ContextMenuItemText>
+                </ContextMenuItem>
+              </>
+            : null
+        }
       </ContextMenuWrapper>
     );
   }

@@ -6,9 +6,11 @@ import { TreeNode } from './components/tree-node';
 import { TreeViewContext } from './context';
 import { ITreeViewProps } from './types';
 
+const ROOT = 'root';
+
 const TreeView = ({ scheme, withContextMenu, updateScheme }: ITreeViewProps) => {
   if (scheme) {
-    const { id: schemeId, structure } = scheme;
+    const { structure } = scheme;
 
     useDocumentWithoutContextMenu();
 
@@ -19,17 +21,13 @@ const TreeView = ({ scheme, withContextMenu, updateScheme }: ITreeViewProps) => 
     return (
       <ul>
         <TreeViewContext.Provider value={{ scheme, updateScheme, withContextMenu } as any}>
-          {
-            structure.keySeq().map((k: any, index: number) => (
-                <TreeNode
-                  key={`${schemeId || index}-${k}`}
-                  path={[k]}
-                  currentKey={k}
-                  withContextMenu={withContextMenu}
-                />
-              ),
-            )
-          }
+          <TreeNode
+            key={ROOT}
+            path={[ROOT]}
+            currentKey={ROOT}
+            withContextMenu={withContextMenu}
+            isRoot={true}
+          />
         </TreeViewContext.Provider>
       </ul>
     );
