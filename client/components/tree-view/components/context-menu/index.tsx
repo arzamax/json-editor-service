@@ -61,7 +61,7 @@ export const ContextMenu = memo(forwardRef((
     setInputValue(e.target.value);
   }, []);
 
-  const handleClickSaveInput = useCallback(() => {
+  const saveInput = useCallback(() => {
     if (inputValue) {
       setInputValue('');
       if (inputType === INPUT_TYPES.ADD_KEY && onAddNode) {
@@ -82,6 +82,12 @@ export const ContextMenu = memo(forwardRef((
     }
   }, [inputType, inputValue]);
 
+  const handleKeyPressSaveInput = useCallback((e: any) => {
+    if (e.key === 'Enter') {
+      saveInput();
+    }
+  }, [inputType, inputValue]);
+
   useEffect(() => {
     setInputType('');
   }, [isOpen]);
@@ -91,7 +97,11 @@ export const ContextMenu = memo(forwardRef((
       return (
         <ContextMenuWrapper ref={ref}>
           <ContextMenuInputWrapper>
-            <ContextMenuInput onChange={handleChangeInput} value={inputValue} />
+            <ContextMenuInput
+              onChange={handleChangeInput}
+              onKeyPress={handleKeyPressSaveInput}
+              value={inputValue}
+            />
             <ContextMenuInputIconWrapper onClick={() => setInputType('')}>
               <DeleteIcon
                 width={ICON_SIZE}
@@ -99,7 +109,7 @@ export const ContextMenu = memo(forwardRef((
                 fill={MAIN_THEME.errorColor}
               />
             </ContextMenuInputIconWrapper>
-            <ContextMenuInputIconWrapper onClick={handleClickSaveInput}>
+            <ContextMenuInputIconWrapper onClick={saveInput}>
               <SuccessIcon
                 width={ICON_SIZE}
                 height={ICON_SIZE}

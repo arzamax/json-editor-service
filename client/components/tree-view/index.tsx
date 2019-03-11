@@ -14,7 +14,7 @@ const TreeView = ({ scheme, withContextMenu, updateScheme }: ITreeViewProps) => 
 
     useDocumentWithoutContextMenu();
 
-    if (!Map.isMap(structure)) {
+    if (!Map.isMap(structure) || !structure.get('root')) {
       return null;
     }
 
